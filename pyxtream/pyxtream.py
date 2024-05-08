@@ -958,7 +958,7 @@ class XTream:
                         return r.json()
                     except:
                         r_dict = xmltodict.parse(r.content)
-                        return r.dict
+                        return r_dict
             except requests.exceptions.ConnectionError:
                 print(" - Connection Error: Possible network problem (e.g. DNS failure, refused connection, etc)")
                 i += 1
