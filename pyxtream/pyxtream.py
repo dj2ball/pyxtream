@@ -27,7 +27,7 @@ from timeit import default_timer as timer
 from typing import List, Tuple
 from datetime import datetime
 import requests
-import xmltodict 
+
 
 from pyxtream.schemaValidator import SchemaType, schemaValidator
 
@@ -957,8 +957,7 @@ class XTream:
                     try:
                         return r.json()
                     except:
-                        r_dict = xmltodict.parse(r.content)
-                        return r_dict
+                        return r.text
             except requests.exceptions.ConnectionError:
                 print(" - Connection Error: Possible network problem (e.g. DNS failure, refused connection, etc)")
                 i += 1
