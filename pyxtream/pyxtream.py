@@ -27,6 +27,7 @@ from timeit import default_timer as timer
 from typing import List, Tuple
 from datetime import datetime
 import requests
+import xmltodict 
 
 from pyxtream.schemaValidator import SchemaType, schemaValidator
 
@@ -936,7 +937,7 @@ class XTream:
                         )
                         season.episodes[episode_info["title"]] = new_episode_channel
 
-    def _get_request(self, url: str, timeout: Tuple = (2, 15)):
+    def _get_request(self, url: str, timeout: Tuple = (2, 20)):
         """Generic GET Request with Error handling
 
         Args:
@@ -953,7 +954,11 @@ class XTream:
                 r = requests.get(url, timeout=timeout, headers=self.connection_headers)
                 i = 20
                 if r.status_code == 200:
-                    return r.json()
+                    try:
+                        return r.json()
+                    except:
+                        r_dict = xmltodict.parse(r.content)
+                        return r.dict
             except requests.exceptions.ConnectionError:
                 print(" - Connection Error: Possible network problem (e.g. DNS failure, refused connection, etc)")
                 i += 1
